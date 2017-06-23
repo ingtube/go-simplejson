@@ -187,6 +187,20 @@ func (j *Json) Array() ([]interface{}, error) {
 	return nil, errors.New("type assertion to []interface{} failed")
 }
 
+func (j *Json) JsonArray() ([]Json, error) {
+	jsonArray := []Json{}
+	arr, err := j.Array()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for _, jsonObj := range arr {
+		jsonArray = append(jsonArray, Json{jsonObj})
+	}
+	return jsonArray, nil
+}
+
 // Bool type asserts to `bool`
 func (j *Json) Bool() (bool, error) {
 	if s, ok := (j.data).(bool); ok {
